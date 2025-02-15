@@ -77,26 +77,7 @@ With increasing credential-based attacks (password leaks, brute force and phishi
    - **Visualizes password risk trends** (Chart.js / D3.js).  
    - **Department-Based Security Analytics** (flag weak passwords by HR, IT, Finance, etc.).  
    - **Breach Alerts via Slack/Email** if enterprise-wide security violations are detected.  
-
-## 🔑 Usage
-
-1. **Enable the browser extension** on a company-approved device.  
-2. **Login is only possible on the company's official login page**   
-3. When a **new user attempts to log in**, a **request is sent to the admin** for approval.  
-   - The **admin must approve within 60 seconds** for the login to proceed.  
-4. **After approval**, the user will:  
-   - **Enter their password**.  
-   - **Train the AI model** on their **keystroke dynamics** (typing behavior).  
-   - This biometric data is securely **stored in the user’s Google Sheets** for future authentication.  
-5. **For daily logins (after registration):**  
-   - The extension verifies **keystroke dynamics** in real-time.  
-   - If the typing pattern **matches the trained biometric profile**, login is **granted**.  
-   - If an **anomaly is detected** (e.g., different typing speed, unusual pauses), additional **MFA verification** (OTP, FaceID, or Security Key) is required.  
-6. **Continuous Enterprise Security Monitoring:**  
-   - All login attempts & security incidents are **logged in Google Sheets** (or enterprise database).  
-   - The system flags **high-risk behavior** (e.g., brute-force attempts, login from unauthorized locations).  
-   - Admins receive **real-time security alerts** if suspicious activity is detected.  
-
+---
 
 ## 🚀 Future Improvements
 - 🔹 Customising the strength assessment according to the comapany's policies
