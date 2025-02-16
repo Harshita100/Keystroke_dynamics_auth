@@ -1,90 +1,96 @@
-# 🚀 AI-Powered Adaptive Password Hygiene & Biometric Security Monitor
+# Chrome Extension: 2FA with Real-Time Password Security Check
 
-## 🔍 Overview
+## Overview
 
-With increasing credential-based attacks (password leaks, brute force and phishing), traditional password security measures fail to prevent unauthorized access. This project aims to enhance password security using AI-powered real-time monitoring and behavioral biometrics.
+This Chrome extension enhances the login security for company web pages by integrating two-factor authentication (2FA) with real-time password security checks. The extension checks the entered password against the "Have I Been Pwned" API to ensure it has not been part of any known breaches. Upon successful password validation, the extension establishes a secure SSL handshake between the user and the server to complete the authentication process.
 
-## ⚙️ Features
+The user interface for the authentication process is built using **Streamlit**, providing an easy-to-use and interactive frontend experience.
 
-✅ **Keystroke Dynamics-Based Authentication**  
-✅ **Real-Time Password Strength & Breach Analysis**  
-✅ **Enterprise-Level Security & Policy Compliance**    
-✅ **MFA Triggers for Suspicious Login Attempts**  
-✅ **Admin-Controlled User Access for Enterprises**  
+Future features will include regular checks for breached passwords and sending notifications to the user when their credentials are compromised.
 
-## 🛠 Tech Stack
+## Features
 
-### **Frontend - Browser Extension**
-- Manifest V3 API (Chrome/Firefox Extension Development)
-- JavaScript (Vanilla/React for popup UI)
-- D3.js for password strength visualization
+- **Real-Time Password Security Check**: During the first authentication step, the extension checks if the entered password has been compromised using the "Have I Been Pwned" API.
+- **SSL Handshake**: After password validation, an SSL handshake is performed to ensure secure communication between the user and the server.
+- **Two-Factor Authentication (2FA)**: After the password check, a second factor is used to provide additional security.
+- **Streamlit Frontend**: The authentication process is presented through an interactive frontend built with Streamlit, providing a seamless and user-friendly experience.
+- **Breach Notifications (Future Scope)**: The extension will periodically check passwords for breaches and notify the user if a breach is detected.
 
-### **Backend & AI Models**
-- FastAPI / Flask (Python) – AI-based risk assessment API
-- TensorFlow / Scikit-learn – Keystroke Dynamics Model
+## Installation
 
-### **Security & Authentication**
-- Have I Been Pwned API – Breach Detection
-- Custom Password Policy Enforcement – Enterprise rules (configurable)
-- User's Google Sheets – Store anonymized biometric trends
+1. **Clone the Repository**:
+   Clone or download the repository to your local machine.
 
-### **Deployment & Hosting**
-- Vercel / AWS Lambda – Hosting backend API
-- GitHub Pages – For extension documentation & landing page
+2. **Install Dependencies**:
+   You need to install the required Python dependencies, including `streamlit` and others needed for the extension and password breach checking functionality.
+   
+   Run the following command to install dependencies:
+   
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 📌 Complete System Workflow for Enterprise Security
+3. **Setup the Chrome Extension**:
+   - Open Chrome and navigate to `chrome://extensions/`.
+   - Enable **Developer mode**.
+   - Click on **Load unpacked** and select the folder containing the Chrome extension files.
 
-### ✅ 1. User Registration & Biometric Setup (First-Time Login)
-1️⃣ **New User Login Attempt on a Company Device**  
-   - The browser extension **detects a login attempt** and **sends an approval request** to the admin panel.  
-   - A **60-second approval window** is triggered.  
+4. **Run the Streamlit App**:
+   Start the Streamlit app by running the following command in the project directory:
 
-2️⃣ **Admin Approval Process**  
-   - IT Admin **receives a real-time notification** (via email, Slack, or the enterprise security dashboard).  
-   - The admin can **approve or deny** the login request.  
-   - If **approved**, the user **proceeds to password setup & biometric training**.  
+   ```bash
+   streamlit run app.py
+   ```
 
-3️⃣ **Keystroke Dynamics Training**  
-   - The system **records the user’s typing behavior** while entering their password.  
-   - AI analyzes **keystroke patterns, timing, and pressure variations** to create a unique biometric profile.  
-   - **Biometric data is securely stored** in Google Sheets.
+   This will launch a local Streamlit app that serves as the frontend for the authentication process.
 
----
+5. **Test the Extension**:
+   Once everything is set up, go to a supported company page that requires login, and the extension will take over the login process, providing the interactive UI from Streamlit.
 
-### ✅ 2. Daily Login Workflow (Post Registration)
-1️⃣ **User Enters Password on the Company Login Page**  
-   - The **browser extension analyzes keystroke dynamics** in real time.  
-   - If **typing pattern matches** the trained biometric profile → **Login is allowed.**  
-   - If there’s an **anomaly** (e.g., unusual typing speed, pauses, bot-like behavior):  
-     - 🔹 **Flags the attempt as suspicious**  
-     - 🔹 **Triggers additional MFA verification** (OTP, FaceID, Security Key)  
+## Usage
 
-2️⃣ **Real-Time Risk Score Calculation**  
-   - **Password Strength + Keystroke Biometrics** generate a **security risk score**.  
-   - **Color-coded risk alerts:**  
-     - ✅ **Green:** Safe Login  
-     - 🟡 **Yellow:** Moderate Risk (user warned)  
-     - 🔴 **Red:** High Risk (MFA required or login blocked)  
+1. **Password Check**: On logging in, the extension prompts you to enter your password. The entered password is:
+   - Checked against the "Have I Been Pwned" API to detect any known breaches.
+   - If the password is found in a breach, you'll be alerted to change it.
+   - If the password is safe, the system proceeds to the second factor of authentication.
+   
+2. **SSL Handshake**: Once both authentication steps are complete, the extension establishes an SSL handshake to secure communication between the user and the server.
 
----
+3. **Streamlit Interface**: The password input, breach status, and authentication steps are presented through the interactive Streamlit frontend, providing an intuitive and engaging user experience.
 
-### ✅ 3. Enterprise Security & Continuous Monitoring
-1️⃣ **Security Logs & Anomaly Detection**  
-   - **Logs all login attempts & security events** in Google Sheets  
-   - Detects **high-risk behavior** (brute force attempts, location anomalies).  
+## Future Scope
 
-2️⃣ **Admin Dashboard for Enterprise Monitoring**  
-   - **Visualizes password risk trends** (Chart.js / D3.js).  
-   - **Department-Based Security Analytics** (flag weak passwords by HR, IT, Finance, etc.).  
-   - **Breach Alerts via Slack/Email** if enterprise-wide security violations are detected.  
----
+- **Regular Password Breach Checks**: The extension will be updated to regularly check the user’s password in the background to ensure it remains secure.
+- **Breach Notifications**: Users will receive notifications if their password is found in a new data breach.
+- **Biometric Integration**: Future versions may include options for biometric authentication (e.g., fingerprint or face recognition) as part of the 2FA process.
+- **Advanced Security Features**: We plan to integrate additional features such as OTP generation and passwordless authentication.
 
-## 🚀 Future Improvements
-- 🔹 Customising the strength assessment according to the comapany's policies
-- 🔹 More advanced keystroke behavioral models
-- 🔹 Integrate with Dark Web monitoring APIs
-- 🔹 Use Google Safe Browsing API to flag phishing domains
+## Dependencies
 
-### **Maintained by:**
-👨‍💻 Codex Betas
+- **Streamlit**: Streamlit is used to build the interactive frontend for the extension. [Streamlit Documentation](https://docs.streamlit.io/)
+- **Have I Been Pwned API**: The extension uses the public "Have I Been Pwned" API to check for compromised passwords. [API Documentation](https://haveibeenpwned.com/API/v3)
+- **Chrome APIs**: Standard Chrome APIs are used to interact with web pages, handle user input, and manage background tasks.
+
+To install required dependencies, run:
+
+```bash
+pip install streamlit requests
+```
+
+## Contributing
+
+We welcome contributions to improve the functionality and security of this extension. If you'd like to contribute, please fork the repository and submit a pull request with your proposed changes.
+
+### Steps to Contribute
+
+1. Fork the repository.
+2. Clone the forked repository to your local machine.
+3. Make your changes.
+4. Push your changes to your fork.
+5. Submit a pull request.
+
+### Issues
+
+If you encounter any bugs or have feature requests, feel free to open an issue on the repository.
+
 
