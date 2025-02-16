@@ -1,95 +1,113 @@
-# Chrome Extension: 2FA with Real-Time Password Security Check
+Chrome Extension for Password Authentication with 2-Factor Authentication
+Overview
+This Chrome Extension integrates a secure, two-factor authentication (2FA) flow that involves real-time password risk assessment and a secure SSL handshake between the user and the server. The application combines modern technologies to secure user credentials and check against password policy violations, password strength, and data breaches.
 
-## Overview
+Table of Contents
+Tech Stack
+Features
+System Architecture
+Installation Instructions
+How to Use
+Code Structure
+Security Considerations
+Contributing
+License
+Tech Stack
+Frontend
+Streamlit: A Python library used for quickly creating interactive web applications, which serves as the user interface for authentication and result display.
+Backend
+Python: The programming language for implementing business logic and backend functionalities such as user authentication, password analysis, and database interaction.
+Encryption & Security
+Fernet (cryptography module): Provides symmetric encryption/decryption to securely handle passwords and sensitive data using a secret key.
+bcrypt: A password-hashing function to securely store and compare hashed passwords.
+ssl: Ensures encrypted communication between the user and server by providing SSL/TLS support.
+hashlib: Provides hashing algorithms, particularly SHA1, for checking password security and potential breaches.
+requests: A library to interact with external services, including checking if passwords have been part of a data breach via the Have I Been Pwned (HIBP) API.
+Password Management
+PasswordPolicy Class: A custom class to define password policies (e.g., length, character requirements) and ensure compliance.
+PasswordStrengthAnalyzer Class: A custom-built class that evaluates password strength using entropy calculations and estimates the time required to crack the password.
+Data Storage
+JSON: A lightweight data format used to store encrypted user credentials and configuration data.
+os: Used for managing file creation, reading user credentials from encrypted files, and ensuring the correct storage of the secret encryption key.
+Utilities
+Regular Expressions (re): Used for password validation, such as checking for repeated characters or other policy violations.
+string: Helps with handling characters like alphanumeric and special characters in passwords during validation.
+math: Provides functions for calculating entropy and estimating password strength.
+User Authentication
+Manual User Authentication: The system allows for authenticating users manually through password validation, secure storage, and enforcement of password policies.
+External API Integration
+Have I Been Pwned (HIBP) API: Integrates with the HIBP API to check whether a user’s password has been exposed in a known data breach.
+Features
+Two-Factor Authentication (2FA): The extension ensures both password validation and 2FA integration, ensuring robust security.
+Password Strength Analysis: Calculates password entropy to determine the strength and potential vulnerabilities.
+Password Policy Enforcement: Ensures that user passwords adhere to defined policies (length, character types, forbidden words).
+Breached Password Check: Automatically checks if the password has been involved in any known data breaches by interacting with the HIBP API.
+Secure SSL Handshake: Ensures encrypted communication between the client (user) and the server during data transmission.
+Real-time Password Risk Assessment: During the password entry, the system checks the strength and compliance in real-time.
+Password Hashing and Encryption: Passwords are securely hashed and encrypted using bcrypt and Fernet to ensure safety in storage and transmission.
+System Architecture
+User Input: The user enters their password through the Chrome Extension.
+Real-Time Risk Assessment: The extension evaluates the password for compliance with defined password policies and strength requirements.
+2FA Integration: After initial password validation, the system triggers 2FA to authenticate the user.
+SSL/TLS Handshake: A secure connection is established between the user’s browser and the server using SSL/TLS encryption.
+Breached Password Check: The system queries the HIBP API to ensure the password has not been part of a data breach.
+Encryption & Hashing: Passwords are securely stored with bcrypt hashing and symmetric encryption using Fernet.
+Installation Instructions
+Prerequisites
+Python 3.6 or higher
+Streamlit
+Necessary Python libraries (bcrypt, cryptography, ssl, requests, hashlib, etc.)
+Steps:
+Clone the Repository:
 
-This Chrome extension enhances the login security for company web pages by integrating two-factor authentication (2FA) with real-time password security checks. The extension checks the entered password against the "Have I Been Pwned" API to ensure it has not been part of any known breaches. Upon successful password validation, the extension establishes a secure SSL handshake between the user and the server to complete the authentication process.
+pgsql
+Copy
+git clone https://github.com/your-repo/password-auth-2fa-extension.git
+cd password-auth-2fa-extension
+Install Dependencies: Ensure you have the required libraries by running:
 
-The user interface for the authentication process is built using **Streamlit**, providing an easy-to-use and interactive frontend experience.
+nginx
+Copy
+pip install -r requirements.txt
+Run the Streamlit App: To start the frontend UI:
 
-Future features will include regular checks for breached passwords and sending notifications to the user when their credentials are compromised.
+arduino
+Copy
+streamlit run app.py
+Configure Secret Keys: Ensure that the secret.key file for Fernet encryption is present in the root directory. If not, generate it using:
 
-## Features
+python
+Copy
+from cryptography.fernet import Fernet
+print(Fernet.generate_key())
+Set Up SSL (Optional): If deploying on a server, ensure that SSL certificates are configured for secure communication.
 
-- **Real-Time Password Security Check**: During the first authentication step, the extension checks if the entered password has been compromised using the "Have I Been Pwned" API.
-- **SSL Handshake**: After password validation, an SSL handshake is performed to ensure secure communication between the user and the server.
-- **Two-Factor Authentication (2FA)**: After the password check, a second factor is used to provide additional security.
-- **Streamlit Frontend**: The authentication process is presented through an interactive frontend built with Streamlit, providing a seamless and user-friendly experience.
-- **Breach Notifications (Future Scope)**: The extension will periodically check passwords for breaches and notify the user if a breach is detected.
+How to Use
+Access the Chrome Extension: Install the Chrome Extension as you would any standard extension.
 
-## Installation
+Input Credentials: When prompted, input your password in the provided field.
 
-1. **Clone the Repository**:
-   Clone or download the repository to your local machine.
+Password Evaluation: The extension evaluates your password for compliance with strength and policy rules and checks if it has been involved in a breach.
 
-2. **Install Dependencies**:
-   You need to install the required Python dependencies, including `streamlit` and others needed for the extension and password breach checking functionality.
-   
-   Run the following command to install dependencies:
-   
-   ```bash
-   pip install -r requirements.txt
-   ```
+2FA: After validating your password, the system will prompt for a second factor to complete the authentication.
 
-3. **Setup the Chrome Extension**:
-   - Open Chrome and navigate to `chrome://extensions/`.
-   - Enable **Developer mode**.
-   - Click on **Load unpacked** and select the folder containing the Chrome extension files.
+Code Structure
+app.py: Main entry point for the Streamlit frontend UI.
+password_policy.py: Defines password policy rules and validation methods.
+password_analyzer.py: Contains the PasswordStrengthAnalyzer class for calculating password strength.
+hibp_checker.py: Queries the Have I Been Pwned (HIBP) API to check for compromised passwords.
+security.py: Handles encryption, hashing, and secure storage of user passwords.
+config.json: Stores encrypted user credentials and configuration data.
+requirements.txt: List of all necessary Python libraries and dependencies.
+Security Considerations
+Password Hashing: Passwords are hashed with bcrypt, making them resistant to brute force or dictionary attacks.
+Encryption: User credentials are encrypted using the Fernet symmetric encryption to secure sensitive data both at rest and in transit.
+SSL Encryption: SSL/TLS ensures that all communications between the user and the server are securely encrypted.
+Contributing
+We welcome contributions! To contribute:
 
-4. **Run the Streamlit App**:
-   Start the Streamlit app by running the following command in the project directory:
-
-   ```bash
-   streamlit run app.py
-   ```
-
-   This will launch a local Streamlit app that serves as the frontend for the authentication process.
-
-5. **Test the Extension**:
-   Once everything is set up, go to a supported company page that requires login, and the extension will take over the login process, providing the interactive UI from Streamlit.
-
-## Usage
-
-1. **Password Check**: On logging in, the extension prompts you to enter your password. The entered password is:
-   - Checked against the "Have I Been Pwned" API to detect any known breaches.
-   - If the password is found in a breach, you'll be alerted to change it.
-   - If the password is safe, the system proceeds to the second factor of authentication.
-   
-2. **SSL Handshake**: Once both authentication steps are complete, the extension establishes an SSL handshake to secure communication between the user and the server.
-
-3. **Streamlit Interface**: The password input, breach status, and authentication steps are presented through the interactive Streamlit frontend, providing an intuitive and engaging user experience.
-
-## Future Scope
-
-- **Regular Password Breach Checks**: The extension will be updated to regularly check the user’s password in the background to ensure it remains secure.
-- **Breach Notifications**: Users will receive notifications if their password is found in a new data breach.
-- **Advanced Security Features**: We plan to integrate additional features such as OTP generation and passwordless authentication.
-
-## Dependencies
-
-- **Streamlit**: Streamlit is used to build the interactive frontend for the extension. [Streamlit Documentation](https://docs.streamlit.io/)
-- **Have I Been Pwned API**: The extension uses the public "Have I Been Pwned" API to check for compromised passwords. [API Documentation](https://haveibeenpwned.com/API/v3)
-- **Chrome APIs**: Standard Chrome APIs are used to interact with web pages, handle user input, and manage background tasks.
-
-To install required dependencies, run:
-
-```bash
-pip install streamlit requests
-```
-
-## Contributing
-
-We welcome contributions to improve the functionality and security of this extension. If you'd like to contribute, please fork the repository and submit a pull request with your proposed changes.
-
-### Steps to Contribute
-
-1. Fork the repository.
-2. Clone the forked repository to your local machine.
-3. Make your changes.
-4. Push your changes to your fork.
-5. Submit a pull request.
-
-### Issues
-
-If you encounter any bugs or have feature requests, feel free to open an issue on the repository.
-
-
+Fork the repository.
+Clone your fork.
+Create a new branch.
+Implement your feature or fix.
+Create a pull request.
