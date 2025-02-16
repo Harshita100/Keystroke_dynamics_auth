@@ -62,7 +62,6 @@ Future features will include regular checks for breached passwords and sending n
 
 - **Regular Password Breach Checks**: The extension will be updated to regularly check the user’s password in the background to ensure it remains secure.
 - **Breach Notifications**: Users will receive notifications if their password is found in a new data breach.
-- **Biometric Integration**: Future versions may include options for biometric authentication (e.g., fingerprint or face recognition) as part of the 2FA process.
 - **Advanced Security Features**: We plan to integrate additional features such as OTP generation and passwordless authentication.
 
 ## Dependencies
